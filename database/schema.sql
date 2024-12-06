@@ -8,7 +8,6 @@ CREATE TABLE Customer (
     phone VARCHAR(20),
     address VARCHAR(255)
 );
-
 -- Policy Table
 CREATE TABLE Policy (
     policyId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,7 +17,6 @@ CREATE TABLE Policy (
     premium DECIMAL(10, 2),
     description TEXT
 );
-
 -- Agent Table
 CREATE TABLE Agent (
     agentId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +25,6 @@ CREATE TABLE Agent (
     email VARCHAR(100),
     phone VARCHAR(20)
 );
-
 -- Customer-Policy Table (Link Table)
 CREATE TABLE CustomerPolicy (
     customerPolicyId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,8 +36,7 @@ CREATE TABLE CustomerPolicy (
     FOREIGN KEY (customerId) REFERENCES Customer(customerId),
     FOREIGN KEY (policyId) REFERENCES Policy(policyId)
 );
-
--- Customer-Agent Table (Link Table)
+-- Customer-Agent Table
 CREATE TABLE CustomerAgent (
     customerAgentId INTEGER PRIMARY KEY AUTOINCREMENT,
     customerId INTEGER,
