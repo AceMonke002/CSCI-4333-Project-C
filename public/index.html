@@ -9,9 +9,30 @@
 <body>
     <h1>Insurance Management System</h1>
 
-    <!-- Customers Section -->
+    <!-- Customers Section (Visible to all users) -->
     <section id="customers">
         <h2>Customers</h2>
+        <ul id="customerList"></ul>
+    </section>
+
+    <!-- Policies Section (Visible to all users) -->
+    <section id="policies">
+        <h2>Policies</h2>
+        <ul id="policyList"></ul>
+    </section>
+
+    <!-- Agent Actions (Only visible to Agents) -->
+    <section id="agentActions" style="display: none;">
+        <h2>Agent Actions</h2>
+        <form id="addPolicyForm">
+            <input type="text" id="policyName" placeholder="Policy Name" required>
+            <input type="text" id="policyType" placeholder="Policy Type" required>
+            <input type="number" step="0.01" id="policyCoverageAmount" placeholder="Coverage Amount" required>
+            <input type="number" step="0.01" id="policyPremium" placeholder="Premium" required>
+            <textarea id="policyDescription" placeholder="Description" required></textarea>
+            <button type="submit">Add Policy</button>
+        </form>
+
         <form id="addCustomerForm">
             <input type="text" id="customerFirstName" placeholder="First Name" required>
             <input type="text" id="customerLastName" placeholder="Last Name" required>
@@ -21,36 +42,11 @@
             <input type="text" id="customerAddress" placeholder="Address" required>
             <button type="submit">Add Customer</button>
         </form>
-        <ul id="customerList"></ul>
     </section>
 
-    <!-- Policies Section -->
-    <section id="policies">
-        <h2>Policies</h2>
-        <form id="addPolicyForm">
-            <input type="text" id="policyName" placeholder="Policy Name" required>
-            <input type="text" id="policyType" placeholder="Policy Type" required>
-            <input type="number" step="0.01" id="policyCoverageAmount" placeholder="Coverage Amount" required>
-            <input type="number" step="0.01" id="policyPremium" placeholder="Premium" required>
-            <textarea id="policyDescription" placeholder="Description" required></textarea>
-            <button type="submit">Add Policy</button>
-        </form>
-        <ul id="policyList"></ul>
-    </section>
-
-    <!-- Agents Section -->
-    <section id="agents">
-        <h2>Agents</h2>
-        <form id="addAgentForm">
-            <input type="text" id="agentFirstName" placeholder="First Name" required>
-            <input type="text" id="agentLastName" placeholder="Last Name" required>
-            <input type="email" id="agentEmail" placeholder="Email" required>
-            <input type="text" id="agentPhone" placeholder="Phone" required>
-            <button type="submit">Add Agent</button>
-        </form>
-        <ul id="agentList"></ul>
-    </section>
+    <button onclick="logout()">Logout</button>
 
     <script src="script.js"></script>
+    <script src="checkRole.js"></script>
 </body>
 </html>

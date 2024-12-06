@@ -14,7 +14,47 @@ async function loadCustomers() {
     renderList(customers, customerList);
 }
 
-// Add Customer
+// Load Policies
+async function loadPolicies() {
+    const response = await fetch(`${API_BASE}/policies`);
+    const policies = await response.json();
+    const policyList = document.getElementById('policyList');
+    renderList(policies, policyList);
+}
+
+// Show actions based on user role
+function checkRole() {
+    const role = localStorage.getItem('userRole');
+
+    if (role === 'agent') {
+        document.getElementById('agentActions').style.display = 'block';
+    }
+}
+
+// Add Policy (for Agents)
+document.getElementById('addPolicyForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const policy = {
+        policyName: document.getElementById('policyName').value,
+        policyType: document.getElementById('policyType').value,
+        coverageAmount: parseFloat(document.getElementById('policyCoverageAmount').value),
+        premium: parseFloat(document.getElementById('policyPremium').value),
+        description: document.getElementById('policyDescription').value,
+    };
+
+    const response = await fetch(`${API_BASE}/policies`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(policy),
+    });
+
+    if (response.ok) {
+        alert('Policy added successfully!');
+        loadPolicies(); // Reload the policies list
+    }
+});
+
+// Add Customer (for Agents)
 document.getElementById('addCustomerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const customer = {
@@ -34,72 +74,17 @@ document.getElementById('addCustomerForm').addEventListener('submit', async (e) 
 
     if (response.ok) {
         alert('Customer added successfully!');
-        loadCustomers();
+        loadCustomers(); // Reload the customer list
     }
 });
 
-// Load Policies
-async function loadPolicies() {
-    const response = await fetch(`${API_BASE}/policies`);
-    const policies = await response.json();
-    const policyList = document.getElementById('policyList');
-    renderList(policies, policyList);
-}
-
-// Add Policy
-document.getElementById('addPolicyForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const policy = {
-        policyName: document.getElementById('policyName').value,
-        policyType: document.getElementById('policyType').value,
-        coverageAmount: parseFloat(document.getElementById('policyCoverageAmount').value),
-        premium: parseFloat(document.getElementById('policyPremium').value),
-        description: document.getElementById('policyDescription').value,
-    };
-
-    const response = await fetch(`${API_BASE}/policies`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(policy),
-    });
-
-    if (response.ok) {
-        alert('Policy added successfully!');
-        loadPolicies();
-    }
-});
-
-// Load Agents
-async function loadAgents() {
-    const response = await fetch(`${API_BASE}/agents`);
-    const agents = await response.json();
-    const agentList = document.getElementById('agentList');
-    renderList(agents, agentList);
-}
-
-// Add Agent
-document.getElementById('addAgentForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const agent = {
-        firstName: document.getElementById('agentFirstName').value,
-        lastName: document.getElementById('agentLastName').value,
-        email: document.getElementById('agentEmail').value,
-        phone: document.getElementById('agentPhone').value,
-    };
-
-    const response = await fetch(`${API_BASE}/agents`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(agent),
-    });
-
-    if (response.ok) {
-        alert('Agent added successfully!');
-        loadAgents();
-    }
-});
-
-// Load all data on page load
+// Load and render data
 loadCustomers();
 loadPolicies();
-loadAgents();
+checkRole();
+
+// Logout function
+function logout() {
+    localStorage.removeItem('userRole');
+    window.location.href = 'login.html';
+}
